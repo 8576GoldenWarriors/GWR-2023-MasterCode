@@ -4,7 +4,12 @@
 
 package frc.robot;
 
-
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.cscore.VideoSink;
+import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -30,6 +35,11 @@ public class Robot extends TimedRobot {
 
   //public static CANSparkMax intake = new CANSparkMax(4, MotorType.kBrushless);
 
+  UsbCamera camera1;
+  UsbCamera camera2;
+  private int cameraNum = 1;
+  VideoSink server;
+  NetworkTableEntry cameraSelection;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -45,7 +55,15 @@ public class Robot extends TimedRobot {
     // m_robotContainer.getDriveTrainSubsystem();
     // DrivetrainSubsystem.zeroHeading();
     // m_robotContainer.getDriveTrainSubsystem().resetEncoders();
-    // DrivetrainSubsystem.setCoastMode();
+    // DrivetrainSubsystem.setCoastMode();\
+    
+    camera1 = CameraServer.startAutomaticCapture(0);
+    camera2 = CameraServer.startAutomaticCapture(1);
+
+    camera1.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
+    camera2.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
+
+    cameraSelection = NetworkTableInstance.getDefault().getTable("").getEntry("CameraSelection");
   }
 
   /**
@@ -121,7 +139,16 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-
+    if (RobotContainer.joystick.getRawButtonPressed(1)) {
+      if (cameraNum == 1){
+        cameraSelection.setString(camera2.getName());
+        cameraNum = 2;
+      }
+      else if (cameraNum == 2){
+        cameraSelection.setString(camera1.getName());
+        cameraNum = 1;
+      }
+    }
   }
 
   @Override
