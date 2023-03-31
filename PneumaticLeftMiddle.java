@@ -4,22 +4,25 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Pneumatics;
 
 public class PneumaticLeftMiddle extends CommandBase {
   /** Creates a new PneumaticLeftMiddle. */
-  public PneumaticLeftMiddle() {
+
+  public PneumaticLeftMiddle(Pneumatics pneumatics) {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(pneumatics);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (Pneumatics.getPotentiometerLeftAngle() > 15){
+    if (Pneumatics.getPotentiometerLeftAngle() > 15 && Pneumatics.getPotentiometerLeftAngle() < 49){
       Pneumatics.leftRunForward();
     }
-    else if (Pneumatics.getPotentiometerLeftAngle() < 75){
+    else if (Pneumatics.getPotentiometerLeftAngle() < 75 && Pneumatics.getPotentiometerLeftAngle() > 52){
       Pneumatics.leftRunReverse();
     }
   }
@@ -27,8 +30,15 @@ public class PneumaticLeftMiddle extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (Pneumatics.getPotentiometerLeftAngle() > 40 && Pneumatics.getPotentiometerLeftAngle() < 50){
+    System.out.println(Pneumatics.getPotentiometerLeftAngle());
+    if (Pneumatics.getPotentiometerLeftAngle() > 38 && Pneumatics.getPotentiometerLeftAngle() < 43){
       Pneumatics.leftEqualize();
+    }
+    else if (Pneumatics.getPotentiometerRightAngle() > 15 && Pneumatics.getPotentiometerRightAngle() < 37){
+      Pneumatics.rightRunForward();
+    }
+    else if (Pneumatics.getPotentiometerRightAngle() < 75 && Pneumatics.getPotentiometerRightAngle() > 44){
+      Pneumatics.rightRunReverse();
     }
   }
 

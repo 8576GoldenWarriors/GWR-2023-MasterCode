@@ -16,10 +16,10 @@ public class PneumaticRightMiddle extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (Pneumatics.getPotentiometerRightAngle() > 15){
+    if (Pneumatics.getPotentiometerRightAngle() > 15 && Pneumatics.getPotentiometerRightAngle() < 44){
       Pneumatics.rightRunForward();
     }
-    else if (Pneumatics.getPotentiometerRightAngle() < 75){
+    else if (Pneumatics.getPotentiometerRightAngle() < 75 && Pneumatics.getPotentiometerRightAngle() > 47){
       Pneumatics.rightRunReverse();
     }
   }
@@ -27,8 +27,15 @@ public class PneumaticRightMiddle extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (Pneumatics.getPotentiometerRightAngle() > 40 && Pneumatics.getPotentiometerRightAngle() < 50){
+    //System.out.println(Pneumatics.getPotentiometerRightAngle());
+    if (Pneumatics.getPotentiometerRightAngle() > 43 && Pneumatics.getPotentiometerRightAngle() < 48){
       Pneumatics.rightEqualize();
+    }
+    else if (Pneumatics.getPotentiometerRightAngle() > 15 && Pneumatics.getPotentiometerRightAngle() < 44){
+      Pneumatics.rightRunForward();
+    }
+    else if (Pneumatics.getPotentiometerRightAngle() < 75 && Pneumatics.getPotentiometerRightAngle() > 47){
+      Pneumatics.rightRunReverse();
     }
   }
 

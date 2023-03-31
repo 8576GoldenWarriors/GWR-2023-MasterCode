@@ -4,36 +4,30 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Robot;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.DrivetrainSubsystem;
 
-public class TimeShoot extends CommandBase {
-  public double speed;
-  public double startTime;
-  /** Creates a new TimeShoot. */
-  public TimeShoot(Shooter shooter, double s) {
+public class brakemode extends CommandBase {
+  /** Creates a new brakemode. */
+  public brakemode(DrivetrainSubsystem drivetrainSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(shooter);
-    speed = s;
+    addRequirements(drivetrainSubsystem);  
   }
 
-// Called when the command is initially scheduled.
+  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    DrivetrainSubsystem.setBreakMode();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    Shooter.shooter(speed + Robot.shift);
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    //Shooter.shooter(0);
+    DrivetrainSubsystem.setCoastMode();
   }
 
   // Returns true when the command should end.

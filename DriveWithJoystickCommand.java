@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -36,10 +37,14 @@ public class DriveWithJoystickCommand extends CommandBase {
   @Override
   public void execute() {
     double forwardSpeed = RobotContainer.joystick.getRawAxis(1);// * Math.abs(RobotContainer.joystick.getRawAxis(1));
-    double turningSpeed = RobotContainer.joystick.getRawAxis(4);// * Math.abs(RobotContainer.joystick.getRawAxis(4));
-    DrivetrainSubsystem.arcadeDrive(forwardSpeed, turningSpeed);
+    double turningSpeed = RobotContainer.joystick.getRawAxis(4);
+    if (turningSpeed > 0.75){
+      turningSpeed = 0.75;
+    }
+    // * Math.abs(RobotContainer.joystick.getRawAxis(4));
+    DrivetrainSubsystem.arcadeDrive((forwardSpeed * Robot.multiple), (turningSpeed * Robot.multiple));
 
-    // if(RobotContainer.joystick.getRawButtonPressed(4)){
+    // if(RobotContainer.joystick.getRawButtonPressed  (4)){
     //   Intake.intake(-0.6);
     // }
     // if(RobotContainer.joystick.getRawButtonPressed(3)){

@@ -23,19 +23,14 @@ public class Shoot extends CommandBase {
   public void initialize() {
     Robot.count++;
     //System.out.println(Robot.count);
-
-    //first press
     if (Robot.count == 2){
       Shooter.shooter(speed);
       Kicker.kicker(0);
       }
-      //second press
       if (Robot.count == 1){
         Shooter.shooter(speed);
         Kicker.kicker(-0.4);
       }
-
-      //third press
       if (Robot.count == 3){
         Robot.count = 0;
         end(true);

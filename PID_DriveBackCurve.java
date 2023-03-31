@@ -7,9 +7,8 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DrivetrainSubsystem;
-import frc.robot.subsystems.Intake;
 
-public class PID_Drive extends CommandBase {
+public class PID_DriveBackCurve extends CommandBase {
   /** Creates a new PID_Drive. */
   public double setpoint;
   public double Kp;
@@ -26,7 +25,7 @@ public class PID_Drive extends CommandBase {
 
   public DrivetrainSubsystem drive;
 
-  public PID_Drive(DrivetrainSubsystem drivetrainSubsystem, double s) {
+  public PID_DriveBackCurve(DrivetrainSubsystem drivetrainSubsystem, double s) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drivetrainSubsystem);
     RobotContainer.getDriveTrainSubsystem().resetEncoders();
@@ -57,8 +56,7 @@ public class PID_Drive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //Intake.intake(-0.1);
-    if (Math.abs(error) > (Math.abs(setpoint) / 1.5)){
+    if (Math.abs(error) > (Math.abs(setpoint) / 2)){
 
       error = Math.abs(setpoint) - Math.abs(DrivetrainSubsystem.getAverageEncoderDistance());
       integral = integral + error;
@@ -69,7 +67,7 @@ public class PID_Drive extends CommandBase {
         motorPower = .65;
       }
 
-      if (motorPower < .20){
+      if (motorPower < .37){
         motorPower = 0;
       }
       
@@ -81,10 +79,11 @@ public class PID_Drive extends CommandBase {
         done = true;
       }
 
+
       System.out.println(error);
       
-      //DrivetrainSubsystem.arcadeDrive((-motorPower), 0);
-      DrivetrainSubsystem.TankDrive((-motorPower - (motorPower / 40)), (-motorPower));
+      //DrivetrainSubsystem.arcadeDrive((motorPower), 0);
+      DrivetrainSubsystem.TankDrive((motorPower + (motorPower / 15)), ((motorPower)));
 
     }
     else{
@@ -97,7 +96,7 @@ public class PID_Drive extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    //Intake.intake(0);
+
     RobotContainer.getDriveTrainSubsystem().TankDrive(0, 0);
     //DrivetrainSubsystem.resetEncoders();
 
